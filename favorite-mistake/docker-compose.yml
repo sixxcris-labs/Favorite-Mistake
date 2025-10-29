@@ -1,0 +1,61 @@
+﻿version: "3.9"
+services:
+  orchestrator:
+    build: ./orchestrator
+    ports:
+      - "8080:8080"
+      - "50051:50051"
+    environment:
+      - POSTGRES_URL=${POSTGRES_URL}
+      - REDIS_URL=${REDIS_URL}
+      - INFURA_URL=${INFURA_URL}
+    depends_on:
+      - postgres
+      - redis
+
+  worker:
+    build: ./worker
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    environment:
+      - ORCHESTRATOR_GRPC=orchestrator:50051
+    depends_on:
+      - orchestrator
+    volumes:
+      - ./models:/app/models
+
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: botdb
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    volumes:
+      - redis_data:/data
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+
+  dashboard:
+    build:
+      context: ./dashboard
+      args:
+        - VITE_API_BASE=http://orchestrator:8080
+    ports:
+      - "3001:80"
+    depends_on:
+      - orchestrator
+
+volumes:
+  pg_data:
+  redis_data:

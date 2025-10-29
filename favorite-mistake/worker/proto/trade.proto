@@ -1,0 +1,11 @@
+﻿syntax = "proto3";
+
+package favorite;
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/empty.proto";
+
+service TradeService {
+  rpc QueueTrade (google.protobuf.Struct) returns (google.protobuf.Struct);
+  rpc StreamTrades (google.protobuf.Empty) returns (stream google.protobuf.Struct);
+}
