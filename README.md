@@ -1,4 +1,4 @@
-# 🎯 Military-Grade Quantitative Crypto Trading System
+# 🎯  Quantitative Crypto Trading System
 
 ## Adversarial-Resistant ML + Advanced Quantitative Analysis
 
@@ -430,19 +430,3 @@ curl http://localhost:5000/api/monitoring/status
 
 ---
 
-## 📞 Support
-
-- **Issues**: GitHub Issues
-- **Docs**: `/docs` folder
-- **Community**: Discord server
-- **Email**: security@<domain> (for vulnerabilities)
-
----
-
-## 📄 License
-
-MIT License - See LICENSE file
-
----
-
-**Built with 🔬 by quants, for quants**
